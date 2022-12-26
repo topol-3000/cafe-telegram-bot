@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cafe_api',
 ]
 
 MIDDLEWARE = [
@@ -98,6 +99,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+# Definition of the custom user model
+
+AUTH_USER_MODEL = 'cafe_api.AdminUser'
 
 
 # Internationalization
