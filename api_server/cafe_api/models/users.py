@@ -1,11 +1,13 @@
+import json
+
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.db.models import CharField, BooleanField, EmailField
+from django.db.models import CharField, BooleanField, EmailField, FloatField
 
 from cafe_api.managers import AdminUserManager
 from .mixins import TimestampMixin
 
 
-class AdminUser(AbstractBaseUser, PermissionsMixin, TimestampMixin):
+class AppBaseUser(TimestampMixin):
     phone_number: CharField = CharField(
         "phone number",
         max_length=12,
@@ -27,6 +29,16 @@ class AdminUser(AbstractBaseUser, PermissionsMixin, TimestampMixin):
         blank=True,
         help_text="The user's last name",
     )
+
+    class Meta:
+        abstract = True
+
+    @property
+    def full_name(self) -> str:
+        return f'{self.first_name} {self.last_name}'
+
+
+class AdminUser(AbstractBaseUser, AppBaseUser, PermissionsMixin):
     email = EmailField(
         "email",
         max_length=150,
@@ -53,9 +65,20 @@ class AdminUser(AbstractBaseUser, PermissionsMixin, TimestampMixin):
         verbose_name = "admin user"
         verbose_name_plural = "admin users"
 
-    @property
-    def full_name(self) -> str:
-        return f'{self.first_name} {self.last_name}'
+    def __str__(self) -> str:
+        return str(self.phone_number)
+
+
+class Customer(AppBaseUser):
+    balance: FloatField = FloatField(
+        "balance",
+        default=0.00,
+        help_text="The customer's balance",
+    )
+
+    class Meta:
+        verbose_name = "customer"
+        verbose_name_plural = "customers"
 
     def __str__(self) -> str:
-        return self.phone_number
+        return str(self.phone_number)
