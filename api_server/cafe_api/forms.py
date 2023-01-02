@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.forms import ModelForm
 
-from .models.users import AdminUser
+from .models.users import AdminUser, Customer
 
 
 class AdminUserCreationForm(UserCreationForm):
@@ -22,4 +23,24 @@ class AdminUserChangeForm(UserChangeForm):
             "last_name",
             "password",
             "email",
+        )
+
+
+class CustomerCreationForm(ModelForm):
+    class Meta:
+        model = Customer
+        fields = (
+            "first_name",
+            "last_name",
+            "phone_number",
+        )
+
+
+class CustomerChangeForm(ModelForm):
+    class Meta:
+        model = Customer
+        fields = (
+            "first_name",
+            "last_name",
+            "phone_number",
         )

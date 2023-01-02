@@ -1,1 +1,1 @@
-from .users import AdminUser
+from .users import AdminUser, Customer
