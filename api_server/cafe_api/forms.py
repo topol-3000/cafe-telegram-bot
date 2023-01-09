@@ -1,7 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.forms import ModelForm
+from django.forms import ModelForm, ValidationError
 
 from .models.users import AdminUser, Customer
+from .models.payment import Payment
 
 
 class AdminUserCreationForm(UserCreationForm):
@@ -43,4 +44,15 @@ class CustomerChangeForm(ModelForm):
             "first_name",
             "last_name",
             "phone_number",
+        )
+
+
+class PaymentForm(ModelForm):
+    class Meta:
+        model = Payment
+        fields = (
+            "amount",
+            "type",
+            "status",
+            "customer",
         )

@@ -6,8 +6,10 @@ from .forms import (
     AdminUserChangeForm,
     CustomerCreationForm,
     CustomerChangeForm,
+    PaymentForm,
 )
 from .models.users import AdminUser, Customer
+from .models.payment import Payment
 
 
 class CustomUserAdmin(UserAdmin):
@@ -82,5 +84,43 @@ class CustomerAdmin(admin.ModelAdmin):
     ordering = ("phone_number", "first_name", "last_name")
 
 
+class PaymentAdmin(admin.ModelAdmin):
+    add_form = PaymentForm
+    form = PaymentForm
+    model = Payment
+    list_display = (
+        "amount",
+        "customer",
+        "type",
+        "status",
+        "created_at",
+    )
+    list_filter = ("type", "status", "customer")
+    fieldsets = (
+        (None, {"fields": (
+            "amount",
+            "type",
+            "status",
+            "customer",
+        )}),
+    )
+    add_fieldsets = (
+        (
+            None, {
+                'classes': ('wide',),
+                'fields': (
+                    "amount",
+                    "type",
+                    "status",
+                    "customer",
+                ),
+            }
+        ),
+    )
+    search_fields = ("type", "status", "customer")
+    ordering = ("amount", "type", "status", "customer")
+
+
 admin.site.register(AdminUser, CustomUserAdmin)
 admin.site.register(Customer, CustomerAdmin)
+admin.site.register(Payment, PaymentAdmin)

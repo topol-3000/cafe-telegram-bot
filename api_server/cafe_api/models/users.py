@@ -1,5 +1,3 @@
-import json
-
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db.models import CharField, BooleanField, EmailField, FloatField
 
@@ -81,4 +79,4 @@ class Customer(AppBaseUser):
         verbose_name_plural = "customers"
 
     def __str__(self) -> str:
-        return str(self.phone_number)
+        return str(f"{self.phone_number} ({self.full_name})")
